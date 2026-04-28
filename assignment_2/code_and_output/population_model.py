@@ -1,19 +1,3 @@
-"""
-中国人口增长模型分析实验
-=====================================
-本实验使用1949-2023年中国人口数据,建立并对比三种经典人口增长模型:
-1. 指数增长模型 (Exponential Growth Model)
-2. 改进指数增长模型 (Improved Exponential Model)
-3. Logistic增长模型 (Logistic Growth Model)
-
-实验内容:
-1. 模型构建: 建立三种人口增长模型
-2. 参数估计: 使用多种方法进行参数估计
-3. 模型检验: 留出数据法(train/test split)进行拟合度检验
-4. 增长预测: 对未来人口进行预测
-5. 结果对比: 从拟合精度、预测合理性、模型稳定性角度对比
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit, least_squares, minimize
@@ -52,7 +36,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 def load_data():
     """加载数据"""
-    wb = openpyxl.load_workbook(r'd:\我的dd\课程作业-大二下\计算机建模\assignment_2\1949-2023人口数据-实验1.xlsx')
+    wb = openpyxl.load_workbook(r'D:\我的dd\课程作业-大二下\计算机建模\assignment_2\code_and_output\1949-2023人口数据-实验1.xlsx')
     sheet = wb['Sheet1']
     years, populations = [], []
     for row in sheet.iter_rows(min_row=6, values_only=True):
@@ -165,14 +149,7 @@ class LogisticModel(PopulationModel):
 
 
 class GompertzModel(PopulationModel):
-    """
-    Gompertz增长模型: N(t) = K * exp(-b * e^(-r*t))
-
-    模型特点:
-        - 早期增长快于Logistic模型
-        - 后期趋于稳定,但速度不同
-        - 常用于描述生物生长过程
-    """
+    """Gompertz模型: N(t) = K * exp(-b * e^(-r*t))"""
     name = "Gompertz"
     formula = "N(t) = K * exp(-b * exp(-r*t))"
     param_names = ["K", "b", "r"]
@@ -193,14 +170,7 @@ class GompertzModel(PopulationModel):
 
 
 class VonBertalanffyModel(PopulationModel):
-    """
-    Von Bertalanffy生长模型: N(t) = K * (1 - e^(-r*(t-t0)))^3
-
-    模型特点:
-        - 源于生物学中的体长生长研究
-        - 考虑生物个体大小限制
-        - 增长曲线呈渐近线形式
-    """
+    """Von Bertalanffy模型: N(t) = K * (1 - e^(-r*(t-t0)))^3"""
     name = "Von Bertalanffy"
     formula = "N(t) = K * (1 - exp(-r*(t-t0)))^3"
     param_names = ["K", "r", "t0"]
@@ -224,7 +194,7 @@ class VonBertalanffyModel(PopulationModel):
 MODELS = [ExponentialModel, ImprovedExponentialModel, LogisticModel, GompertzModel, VonBertalanffyModel]
 
 
-# 参数估计方法定义
+# 参数估计方法
 class EstimationMethod:
     """参数估计方法基类"""
     pass
@@ -325,11 +295,7 @@ METHODS = [TrustRegionReflective, LevenbergMarquardt, DogboxMethod, BFGSMethod]
 
 # 模型检验与预测
 def train_test_split(years, populations, train_end_year=2010):
-    """
-    划分训练集和测试集(留出数据法)
-    训练集: 1949 - train_end_year
-    测试集: train_end_year+1 - 2023
-    """
+    """留出数据法划分训练集和测试集"""
     train_mask = years <= train_end_year
     test_mask = years > train_end_year
     return (years[train_mask], populations[train_mask],
@@ -367,10 +333,7 @@ def predict_future(model_class, params, future_years, base_year=1949):
 
 
 def analyze_prediction_quality(model_class, params, future_years):
-    """
-    分析预测质量
-    检查: 预测值合理性、增长率稳定性、是否出现不合理趋势
-    """
+    """分析预测是否合理，增长率是否正常"""
     preds = predict_future(model_class, params, future_years)
 
     growth_rates = []
@@ -396,10 +359,7 @@ def analyze_prediction_quality(model_class, params, future_years):
 
 
 def analyze_stability(results_dict):
-    """
-    分析模型稳定性
-    检查不同方法估计的参数变异系数
-    """
+    """计算不同方法估计参数的变异系数"""
     stability = {}
 
     first_method = list(results_dict.keys())[0]
@@ -595,10 +555,11 @@ def run_full_experiment():
     print(f"\n测试集年份: {test_years}")
     print("-"*100)
 
-    col_widths2 = [30, 18, 14, 14, 14, 14]
+    col_widths2 = [28, 14, 11, 11, 11, 11, 11]
     header_parts = [fmt_col("方法", col_widths2[0]), fmt_col("模型", col_widths2[1]),
                    fmt_col("训练R^2", col_widths2[2]), fmt_col("测试R^2", col_widths2[3]),
-                   fmt_col("测试RMSE", col_widths2[4]), fmt_col("测试MAE", col_widths2[5])]
+                   fmt_col("测试RMSE", col_widths2[4]), fmt_col("测试MAE", col_widths2[5]),
+                   fmt_col("测试MAPE(%)", col_widths2[6])]
     print(' '.join(header_parts))
     print("-"*100)
 
@@ -614,7 +575,8 @@ def run_full_experiment():
                         fmt_col(f"{tm['r2']:.6f}", col_widths2[2]),
                         fmt_col(f"{test_m['r2']:.6f}", col_widths2[3]),
                         fmt_col(f"{test_m['rmse']:.6f}", col_widths2[4]),
-                        fmt_col(f"{test_m['mae']:.6f}", col_widths2[5])]
+                        fmt_col(f"{test_m['mae']:.6f}", col_widths2[5]),
+                        fmt_col(f"{test_m['mape']:.4f}", col_widths2[6])]
             print(' '.join(row_parts))
             first = False
 
