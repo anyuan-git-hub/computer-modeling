@@ -1,0 +1,5 @@
+loss_ratio,loss_ratio_value,threshold,U-1,U-2,U-3
+1:1,1,0.000000,Apf,Af,Af
+2:1,2,-0.693147,Apf,Af,Apf
+3:1,3,-1.098612,Apf,Apf,Apf
+5:1,5,-1.609438,Apf,Apf,Apf

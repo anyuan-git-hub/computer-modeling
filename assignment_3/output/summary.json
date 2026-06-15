@@ -1,0 +1,40 @@
+{
+  "n_apf": 6,
+  "n_af": 9,
+  "n_unknown": 3,
+  "mean_apf": [
+    1.2266666666666666,
+    1.926666666666667
+  ],
+  "mean_af": [
+    1.4133333333333333,
+    1.8044444444444447
+  ],
+  "pooled_cov": [
+    [
+      0.007548717948717954,
+      0.006646153846153851
+    ],
+    [
+      0.006646153846153851,
+      0.013381196581196587
+    ]
+  ],
+  "linear_w": [
+    -58.236437934301954,
+    38.058670246367654
+  ],
+  "linear_c": 5.871534358110452,
+  "box_m_chi_square": 2.725315234222596,
+  "box_m_df": 3.0,
+  "box_m_p_value": 0.435942364107064,
+  "resub_error_count": 0,
+  "resub_error_rate": 0.0,
+  "loocv_error_count": 1,
+  "loocv_error_rate": 0.06666666666666667,
+  "loocv_wrong_indices_1_based": [
+    7
+  ],
+  "distance_unknown_labels": "Apf, Af, Af",
+  "bayes_equal_loss_unknown_labels": "Apf, Af, Af"
+}

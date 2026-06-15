@@ -1,0 +1,4 @@
+sample_id,antenna,wing,dist_apf,dist_af,distance_prediction,bayes_log_odds,bayes_equal_loss_prediction
+U-1,1.24,1.80,2.567634,6.895550,Apf,1.758493,Apf
+U-2,1.29,1.81,4.479899,3.745344,Af,-0.772743,Af
+U-3,1.43,2.03,6.237835,5.942892,Af,-0.552936,Af

@@ -1,0 +1,6 @@
+metric,value
+Box M chi-square,2.725315
+Box M p-value,0.435942
+Resubstitution error,0/15
+LOOCV error,1/15
+Distance unknown labels,"Apf, Af, Af"
